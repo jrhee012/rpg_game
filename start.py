@@ -1,21 +1,20 @@
-# import sys
 import pygame
-import GameFunction.keys
+from GameFunction import settings, keys
 
 
 def main():
+
     pygame.init()
 
-    screen_height = 1200
-    screen_width = 1000
-    background_colour = (255, 255, 255)
+    init_settings = settings.Settings()
+    init_settings.check_save_file()
+    screen = pygame.display.set_mode((init_settings.screen_width, init_settings.screen_height))
+    screen.fill(init_settings.background_colour)
 
-    screen = pygame.display.set_mode((screen_width, screen_height))
     pygame.display.set_caption("Test")
-    screen.fill(background_colour)
 
     while True:
-        GameFunction.keys.check_events()
+        keys.check_events()
 
 
 if __name__ == "__main__":
