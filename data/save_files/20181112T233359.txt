@@ -1,0 +1,1 @@
+<GameFunction.character.Character object at 0x115c25588>
