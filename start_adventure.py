@@ -30,22 +30,22 @@ class App:
         game_screen = screen.Screen(init_settings)
         self.screen = game_screen
 
-        push_to_app(self)
+        # push_to_app(self)
         # app = self
 
         while True:
             # keys.check_events()
             key_listener.check_events(self)
 
-
-def push_to_app(main:App) -> None:
-    app.append(main)
-    print('push app', app)
-
-
-def get_app():
-    print(app)
-    return app[0]
+#
+# def push_to_app(main:App) -> None:
+#     app.append(main)
+#     print('push app', app)
+#
+#
+# def get_app():
+#     print(app)
+#     return app[0]
 
 
 if __name__ == "__main__":

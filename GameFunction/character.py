@@ -1,5 +1,6 @@
 import json
 import logging
+from Items.weapons.swords import broad_sword
 
 logger = logging.getLogger("MAIN")
 
@@ -7,11 +8,13 @@ logger = logging.getLogger("MAIN")
 class Character:
     def __init__(self):
         self.level = 0
-        self.weapon = "none"
+        self.weapon = broad_sword.name
         self.armor = "none"
         self.spells = []
         self.name = "{character_name}"
         self.exp = 0
+        self.total_health = 10
+        self.remaining_health = 10
 
     def set_stats(self, stats: str = "") -> None:
         replaced_str = stats.replace('\'', '"')
@@ -24,6 +27,8 @@ class Character:
             self.spells = json_stats["spells"]
             self.name = json_stats["name"]
             self.exp = json_stats["exp"]
+            self.total_health = json_stats["total_health"]
+            self.remaining_health = json_stats["remaining_health"]
         except KeyError as e:
             logger.error(e)
             logger.warn("unable to set previous character...!")
@@ -59,6 +64,8 @@ class Character:
 
     def level_up(self) -> None:
         self.level += 1
+        self.remaining_health += 1
+        self.total_health += 1
         self.get_level_exp()
         logger.debug("%s leveled up! level: %s" % (self.name, self.level))
 
@@ -66,6 +73,8 @@ class Character:
         stats = {
             "name": self.name,
             "exp": self.exp,
+            "total_health": self.total_health,
+            "remaining_health": self.remaining_health,
             "level": self.level,
             "weapon": self.weapon,
             "armor": self.armor,
@@ -76,11 +85,16 @@ class Character:
     def update_from_last_file(self, last_file: str = "") -> None:
         self.set_stats(last_file)
 
+    def attack(self, target):
+        attack_pt = self.weapon
+
 
 def get_info(character: json) -> object:
     stats = {
         "name": character.name,
         "exp": character.exp,
+        "total_health": character.total_health,
+        "remaining_health": character.remaining_health,
         "level": character.level,
         "weapon": character.weapon,
         "armor": character.armor,
