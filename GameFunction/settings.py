@@ -1,5 +1,5 @@
 import os
-import logging
+# import logging
 import __root__
 import datetime
 from .states import State
@@ -11,7 +11,6 @@ logger = logging.getLogger("MAIN")
 
 
 class Settings:
-
     def __init__(self):
         self.screen_width = 1200
         self.screen_height = 800
@@ -19,8 +18,10 @@ class Settings:
         self.root_dir = root_dir
         self.save_file_dir = os.path.join(root_dir, "data", "save_files")
         self.current_save_file = None
+        self.app = None
 
-    def initialize(self) -> None:
+    def initialize(self, app, key_listener) -> None:
+        self.app = app
         save_file_dir = self.save_file_dir
         dir_exist = os.path.isdir(save_file_dir)
 
@@ -47,7 +48,13 @@ class Settings:
 
         logger.info("loaded character: %s" % str(character.get_info()))
 
-        new_state = State()
+        # print("app: ", app)
+        # print("app name: ", app.name)
+        # print(app.settings)
+
+        new_state = State(app, key_listener)
+        # new_state.update()
+        app.state = new_state
 
         # TODO: TEST
         character.add_exp(exp=1000)

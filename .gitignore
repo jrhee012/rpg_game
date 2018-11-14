@@ -1,3 +1,4 @@
 .python-version
 .idea
-data/
+data/save_files
+.DS_Store

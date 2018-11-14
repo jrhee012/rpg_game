@@ -1,35 +1,53 @@
 import pygame
-from GameFunction import settings, keys
+from GameFunction import settings, keys, screen
 from Logger import log
+
+# __APP__: list = []
+__MAIN_LOGGER__ = "MAIN"
+app = []
 
 
 class App:
-
     def __init__(self):
+        self.settings = None
+        self.screen = None
+        self.name = "MAIN APP"
+        self.state = None
+
+        # app.append(self)
+        # print('asdasd:::', app)
         self.main()
 
-    @staticmethod
-    def main() -> None:
+    def main(self) -> None:
         pygame.init()
-
-        init_settings = settings.Settings()
-
-        init_settings.initialize()
-
-        screen = pygame.display.set_mode((init_settings.screen_width, init_settings.screen_height))
-        screen.fill(init_settings.background_colour)
-
-        pygame.display.set_caption("Test")
 
         key_listener = keys.KeyListener(name="MAIN_KEY_LISTENER")
 
-        # keys.find_key_listener("test")
+        init_settings = settings.Settings()
+        init_settings.initialize(self, key_listener)
+        self.settings = init_settings
+
+        game_screen = screen.Screen(init_settings)
+        self.screen = game_screen
+
+        push_to_app(self)
+        # app = self
 
         while True:
             # keys.check_events()
-            key_listener.check_events()
+            key_listener.check_events(self)
+
+
+def push_to_app(main:App) -> None:
+    app.append(main)
+    print('push app', app)
+
+
+def get_app():
+    print(app)
+    return app[0]
 
 
 if __name__ == "__main__":
-    log.Logger("MAIN")
-    App()
+    log.Logger(__MAIN_LOGGER__)
+    app = App()

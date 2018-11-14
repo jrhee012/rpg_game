@@ -5,7 +5,6 @@ logger = logging.getLogger("MAIN")
 
 
 class Character:
-
     def __init__(self):
         self.level = 0
         self.weapon = "none"
